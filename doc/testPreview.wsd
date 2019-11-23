@@ -1,0 +1,31 @@
+@startuml uml design
+interface GameInterface
+GameInterface <|-- Game
+Game *-- SoundBank
+SoundSampleInterface <|-- SoundSample
+SoundBank o-- SoundSample
+Game -> JsonConfigFile
+
+class SoundBank {
+    PlaySample(sample_id id)
+}
+
+interface SoundSampleInterface {
+    sample_id id
+    PlaySound()
+}
+
+class SoundSample {
+    string path_to_sample
+}
+
+class JsonConfigFile {
+    vector<sample_id> ids
+    map<sample_id, filePath> sounds 
+    map<sample_id, bool[64]> buttons
+    ReadFromFile(string config_path)
+    WriteToFile(string config_path)
+}
+
+
+@enduml
