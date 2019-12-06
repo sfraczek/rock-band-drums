@@ -1,4 +1,4 @@
-@startuml uml design
+@startuml uml Class Diagram COncept
 interface GameInterface
 GameInterface <|-- Game
 Game *-- SoundBank
