@@ -9,24 +9,20 @@ rectangle "config file" {
 }
 
 rectangle application {
-    (Launch) as Launch
-    (Event Loop) as EventLoop
-    (Play a sound) as PlaySound
-    (Close application) as CloseApplication
+    (Launch app) as LaunchApp
+    (Play sound) as PlaySound
+    (Close app) as CloseApp
 }
 
-usecase HitDrum as "Hit a drum
+usecase HitDrum as "Hit drum
 ---
-Can be anything like:
-drumkit, key press, GUI click"
+(drumkit, key press, GUI click)"
 
-User -- Launch
+User -- LaunchApp
 User --> ModifyConfig
-User --> HitDrum
+User -- HitDrum
+User --> CloseApp
 
-Launch --> ReadConfig : Parse config
-Launch --> EventLoop : give over control
-EventLoop --> PlaySound
-EventLoop --> CloseApplication
-HitDrum --> EventLoop : read event
+LaunchApp --> ReadConfig : Parse config
+HitDrum --> PlaySound
 @enduml
