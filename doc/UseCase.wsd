@@ -1,0 +1,32 @@
+@startuml Use Case
+skinparam packageStyle rectangle
+
+actor User
+
+rectangle "config file" {
+    (Modify) as ModifyConfig
+    (Read) as ReadConfig
+}
+
+rectangle application {
+    (Launch) as Launch
+    (Event Loop) as EventLoop
+    (Play a sound) as PlaySound
+    (Close application) as CloseApplication
+}
+
+usecase HitDrum as "Hit a drum
+---
+Can be anything like:
+drumkit, key press, GUI click"
+
+User -- Launch
+User --> ModifyConfig
+User --> HitDrum
+
+Launch --> ReadConfig : Parse config
+Launch --> EventLoop : give over control
+EventLoop --> PlaySound
+EventLoop --> CloseApplication
+HitDrum --> EventLoop : read event
+@enduml
