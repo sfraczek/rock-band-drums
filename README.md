@@ -26,7 +26,7 @@ if it doesn't work, add `-DCMAKE_SH="CMAKE_SH-NOTFOUND"`
 
 ### How to run app
 ```bash
-PATH=$PATH:_deps/sfml-build/lib ./app/app.exe
+PATH=$PATH:_deps/sfml-build/lib:_deps/sfml-src/extlibs/bin/x64 ./app/app.exe
 ```
 
 ### How to run tests

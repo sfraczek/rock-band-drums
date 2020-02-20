@@ -13,4 +13,4 @@ add_executable(app app.cpp)
 target_include_directories(app PRIVATE ${sfml_SOURCE_DIR}/include)
 target_link_directories(app PRIVATE ${sfml_BINARY_DIR}/lib)
 
-target_link_libraries(app PRIVATE lib sfml-graphics sfml-window sfml-system) #sfml‑system sfml‑window sfml‑network sfml‑graphics sfml‑audio sfml‑main
+target_link_libraries(app PRIVATE lib sfml-audio sfml-graphics sfml-window sfml-system) #sfml‑system sfml‑window sfml‑network sfml‑graphics sfml‑audio sfml‑main
