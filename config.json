@@ -1,0 +1,16 @@
+"drums": [
+    {
+        "name": "HiHat",
+        "sound_file": "../sounds/hihat.mp3",
+        "key_combination": [
+            19
+        ],
+        "joystick_buttons_combination": [
+            0
+        ],
+        "position_on_screen": {
+            "x": 100,
+            "y": 200
+        }
+    }
+]

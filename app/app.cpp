@@ -1,10 +1,10 @@
 #include "lib.hpp"
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
 #include <cmath>
 #include <iostream>
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 struct DrumButton : public sf::CircleShape
 {
@@ -60,7 +60,7 @@ private:
 
 struct MainText : public sf::Text
 {
-    MainText(sf::Font font) : font(std::move(font))
+    explicit MainText(sf::Font font) : font(std::move(font))
     {
         setString("Press any key or joystick button");
         setFont(font);
@@ -75,9 +75,7 @@ private:
 
 int main()
 {
-    Ion_DrumPad::App app;
-
-    Ion_DrumPad::Config cfg = app.ReadConfig();
+    Ion_DrumPad::App app("../config.json");
 
     sf::RenderWindow window(sf::VideoMode(app.window_size.width, app.window_size.height), app.window_title);
 
