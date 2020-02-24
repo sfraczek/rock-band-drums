@@ -60,8 +60,13 @@ private:
 
 struct MainText : public sf::Text
 {
-    explicit MainText(sf::Font font) : font(std::move(font))
+    explicit MainText(std::string fname)
     {
+        if (!font.loadFromFile(fname))
+        {
+            throw std::runtime_error("Could not load font '" + fname + "' from file.");
+        }
+
         setString("Press any key or joystick button");
         setFont(font);
         setCharacterSize(30);
@@ -79,13 +84,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(app.window_size.width, app.window_size.height), app.window_title);
 
-    sf::Font default_font;
-    std::string fname = app.default_font;
-    if (!default_font.loadFromFile(fname))
-    {
-        throw std::runtime_error("Could not load font '" + fname + "' from file.");
-    }
-    MainText text(default_font);
+    MainText text(app.default_font);
 
     DrumButton shape;
 
