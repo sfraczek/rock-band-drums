@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <fstream>
+#include <iostream>
 
 #include "algebra.hpp"
 #include "drum.hpp"
@@ -50,16 +51,12 @@ void from_json(const json &j, Drum &d)
 std::vector<Drum> Ion_DrumPad::ConfigFile::ReadFromFile(std::string file)
 {
     std::ifstream ifs(file);
-    json js = json::parse(ifs);
+    json js_drum_list = json::parse(ifs);
     std::vector<Drum> drums;
-    for (auto &entry : js)
+    for (auto &js_drum : js_drum_list)
     {
-        // drums.emplace_back(entry["name"].get<std::string>(),
-        //                    entry["sound_file"].get<std::string>(),
-        //                    entry["key_combination"].get<std::vector<uint32_t>>(),
-        //                    entry["joystick_buttons_combination"].get<std::vector<uint32_t>>(),
-        //                    entry["position_on_screen"].get<Position>();
-        drums.emplace_back(entry.get<Drum>());
+        std::cout << js_drum << "\n";
+        drums.emplace_back(js_drum.get<Drum>());
     }
     Validate(drums);
     return drums;

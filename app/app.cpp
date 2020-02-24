@@ -75,12 +75,12 @@ private:
 
 int main()
 {
-    Ion_DrumPad::App app("../config.json");
+    Ion_DrumPad::App app;
 
     sf::RenderWindow window(sf::VideoMode(app.window_size.width, app.window_size.height), app.window_title);
 
     sf::Font default_font;
-    std::string fname{"C:\\Windows\\Fonts\\arial.ttf"};
+    std::string fname = app.default_font;
     if (!default_font.loadFromFile(fname))
     {
         throw std::runtime_error("Could not load font '" + fname + "' from file.");
@@ -145,7 +145,7 @@ int main()
 
         window.clear();
         window.draw(shape);
-        window.draw(text);
+        // window.draw(text);
         window.display();
     }
 

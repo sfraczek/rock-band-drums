@@ -1,4 +1,4 @@
-"drums": [
+[
     {
         "name": "HiHat",
         "sound_file": "../sounds/hihat.mp3",
@@ -10,6 +10,20 @@
         ],
         "position_on_screen": {
             "x": 100,
+            "y": 200
+        }
+    },
+    {
+        "name": "Werbel",
+        "sound_file": "../sounds/webel.mp3",
+        "key_combination": [
+            18
+        ],
+        "joystick_buttons_combination": [
+            1
+        ],
+        "position_on_screen": {
+            "x": 200,
             "y": 200
         }
     }

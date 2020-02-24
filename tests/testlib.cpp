@@ -6,7 +6,7 @@ using Ion_DrumPad::App;
 
 TEST_CASE("App", "Public variables")
 {
-    App app("../config.json");
+    App app;
 
     REQUIRE(app.window_size.width == 800);
     REQUIRE(app.window_size.height == 600);
@@ -15,7 +15,7 @@ TEST_CASE("App", "Public variables")
 
 TEST_CASE("App", "Callbacks don't throw")
 {
-    App app("../config.json");
+    App app;
 
     auto key_code = 12u;
     auto joystick_id = 1u;
