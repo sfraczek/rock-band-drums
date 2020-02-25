@@ -12,10 +12,12 @@ struct Drum
     // Path to the sound file
     std::string sound_file;
     // Combination of keys to trigger
-    std::vector<uint32_t> keys_combination;
+    std::vector<uint32_t> keyboard_buttons_combination;
     // Combination of joustick buttons to trigger
     std::vector<uint32_t> joystick_buttons_combination;
     // Position on screen where to draw it
     Position position_on_screen;
+    // radius of drawn button
+    float radius;
 };
 } // namespace Ion_DrumPad

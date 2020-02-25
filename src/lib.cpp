@@ -2,6 +2,23 @@
 
 #include <iostream>
 
+#ifdef _WIN32
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#elif __linux__
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
+std::string Ion_DrumPad::App::getPath()
+{
+    char buff[FILENAME_MAX];
+    if (GetCurrentDir(buff, FILENAME_MAX) == NULL) {
+        throw std::runtime_error("Failed to get working directory path from OS.");
+    }
+    return std::string{buff};
+}
+
 void Ion_DrumPad::App::KeyPressedCallback(uint32_t key_code)
 {
     std::cout << "Key pressed!" << std::endl;

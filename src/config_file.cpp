@@ -43,9 +43,10 @@ void from_json(const json &j, Drum &d)
 {
     j.at("name").get_to(d.name);
     j.at("sound_file").get_to(d.sound_file);
-    j.at("key_combination").get_to(d.keys_combination);
+    j.at("keyboard_buttons_combination").get_to(d.keyboard_buttons_combination);
     j.at("joystick_buttons_combination").get_to(d.joystick_buttons_combination);
     j.at("position_on_screen").get_to(d.position_on_screen);
+    j.at("radius").get_to(d.radius);
 }
 
 std::vector<Drum> Ion_DrumPad::ConfigFile::ReadFromFile(std::string file)

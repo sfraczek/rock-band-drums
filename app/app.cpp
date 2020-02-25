@@ -3,59 +3,98 @@
 #include <cmath>
 #include <iostream>
 
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
-struct DrumButton : public sf::CircleShape
+struct DrumButtonsManager
 {
-    DrumButton()
+    explicit DrumButtonsManager(const std::vector<Ion_DrumPad::Drum> drums)
     {
-        setFillColor(sf::Color::Green);
-        setRadius(100.f);
+        names.resize(drums.size());
+        shapes.resize(drums.size());
+        samples.resize(drums.size());
+        positions.resize(drums.size());
+        radiuses.resize(drums.size());
+#ifdef DEBUG
+        last_distances.resize(drums.size(), -1);
+        std::vector<uint32_t> count(drums.size(), 0);
+#endif
+        for (size_t i = 0; i < drums.size(); i++)
+        {
+            names[i] = drums[i].name;
+            positions[i] = drums[i].position_on_screen;
+            radiuses[i] = drums[i].radius;
 
-        static int i = 0;
-        id = i++;
+            // Create button shape
+            shapes[i].setPosition(drums[i].position_on_screen.x, drums[i].position_on_screen.y);
+            shapes[i].setRadius(drums[i].radius);
+            shapes[i].setFillColor(sf::Color::Green);
+
+            // Load a Sound to play
+            sf::SoundBuffer sb;
+            if (!sb.loadFromFile(drums[i].sound_file))
+            {
+                throw std::runtime_error("Couldn't load sample '" + Ion_DrumPad::App::getPath() + drums[i].sound_file + "'.");
+            }
+            samples[i] = std::make_unique<sf::Sound>(sb);
+        }
     }
 
-    bool Contains(int32_t x, int32_t y)
+#ifdef DEBUG
+    inline bool Contains(const Ion_DrumPad::Position &p, float radius, int32_t x, int32_t y, float &last_distance)
     {
-        float dx = GetCenterX() - x;
-        float dy = GetCenterY() - y;
+        float dx = p.x + radius - x;
+        float dy = p.y + radius - y;
         last_distance = std::hypot(dx, dy);
-        return last_distance < getRadius();
+        return last_distance < radius;
+    }
+#else
+    inline bool Contains(const Ion_DrumPad::Position &p, float radius, int32_t x, int32_t y)
+    {
+        float dx = p.x + radius - x;
+        float dy = p.y + radius - y;
+        return std::hypot(dx, dy) < radius;
+    }
+#endif
+
+    size_t GetButtonIndexAt(int32_t x, int32_t y)
+    {
+        for (int i = 0; i < positions.size(); i++)
+        {
+#ifdef DEBUG
+            if (Contains(positions[i], radiuses[i], x, y, last_distances[i]))
+#else
+            if (Contains(positions[i], radiuses[i], x, y))
+#endif
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
-    float GetCenterX()
+    void Click(size_t index)
     {
-        return (getPosition().x + getRadius());
-    }
-
-    float GetCenterY()
-    {
-        return (getPosition().y + getRadius());
-    }
-
-    void Click()
-    {
-        sample.play();
+        samples[index]->play();
+#ifdef DEBUG
         std::cout << "Visual button pressed!" << std::endl;
-        std::cout << "Visual button id: " << id << std::endl;
-        std::cout << "Visual button distance: " << last_distance << std::endl;
-        static int i = 0;
-        std::cout << "Clicked for " << i++ << " time" << std::endl;
+        std::cout << "Visual button name: " << names[index] << std::endl;
+        std::cout << "Visual button distance: " << last_distances[index] << std::endl;
+        std::cout << "Clicked for " << count[index]++ << " time" << std::endl;
+#endif
     }
 
-    void SetSample(std::string file)
-    {
-        // Load a music to play
-        if (!sample.openFromFile(file))
-            throw std::runtime_error("Couldn't load sample '" + file + "'.");
-    }
-
-private:
-    sf::Music sample;
-    uint32_t id;
-    float last_distance;
+    std::vector<float> radiuses;
+    std::vector<std::string> names;
+    std::vector<sf::CircleShape> shapes;
+    std::vector<std::unique_ptr<sf::Sound>> samples;
+    std::vector<Ion_DrumPad::Position> positions;
+    std::vector<std::vector<uint32_t>> keyboard_buttons_combination;
+    std::vector<std::vector<uint32_t>> joystick_buttons_combination;
+#ifdef DEBUG
+    std::vector<float> last_distances;
+    std::vector<uint32_t> count(drums.size(), 0);
+#endif
 };
 
 struct MainText : public sf::Text
@@ -86,7 +125,7 @@ int main()
 
     MainText text(app.default_font);
 
-    DrumButton shape;
+    DrumButtonsManager buttons_manager(app.drums);
 
     while (window.isOpen())
     {
@@ -124,18 +163,21 @@ int main()
                 break;
 
             case sf::Event::MouseButtonPressed:
-                if (shape.Contains(event.mouseButton.x, event.mouseButton.y))
+            {
+                size_t index = buttons_manager.GetButtonIndexAt(event.mouseButton.x, event.mouseButton.y);
+                if (index != -1)
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        shape.Click();
+                        buttons_manager.Click(index);
                     }
                     else if (event.mouseButton.button == sf::Mouse::Right)
                     {
-                        shape.setFillColor(sf::Color::Red);
+                        buttons_manager.shapes[index].setFillColor(sf::Color::Red);
                     }
                 }
-                break;
+            }
+            break;
 
             default:
                 break;
@@ -143,10 +185,11 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
-        // window.draw(text);
+        for (auto &button : buttons_manager.shapes)
+            window.draw(button);
+        window.draw(text);
         window.display();
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
