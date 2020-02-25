@@ -13,6 +13,7 @@ struct DrumButtonsManager
         names.resize(drums.size());
         shapes.resize(drums.size());
         samples.resize(drums.size());
+        sound_buffers.resize(drums.size());
         positions.resize(drums.size());
         radiuses.resize(drums.size());
 #ifdef DEBUG
@@ -31,12 +32,11 @@ struct DrumButtonsManager
             shapes[i].setFillColor(sf::Color::Green);
 
             // Load a Sound to play
-            sf::SoundBuffer sb;
-            if (!sb.loadFromFile(drums[i].sound_file))
+            if (!sound_buffers[i].loadFromFile(drums[i].sound_file))
             {
                 throw std::runtime_error("Couldn't load sample '" + Ion_DrumPad::App::getPath() + drums[i].sound_file + "'.");
             }
-            samples[i] = std::make_unique<sf::Sound>(sb);
+            samples[i].setBuffer(sound_buffers[i]);
         }
     }
 
@@ -75,7 +75,7 @@ struct DrumButtonsManager
 
     void Click(size_t index)
     {
-        samples[index]->play();
+        samples[index].play();
 #ifdef DEBUG
         std::cout << "Visual button pressed!" << std::endl;
         std::cout << "Visual button name: " << names[index] << std::endl;
@@ -87,7 +87,8 @@ struct DrumButtonsManager
     std::vector<float> radiuses;
     std::vector<std::string> names;
     std::vector<sf::CircleShape> shapes;
-    std::vector<std::unique_ptr<sf::Sound>> samples;
+    std::vector<sf::Sound> samples;
+    std::vector<sf::SoundBuffer> sound_buffers;
     std::vector<Ion_DrumPad::Position> positions;
     std::vector<std::vector<uint32_t>> keyboard_buttons_combination;
     std::vector<std::vector<uint32_t>> joystick_buttons_combination;
