@@ -12,6 +12,7 @@ struct DrumButtonsManager
     {
         names.resize(drums.size());
         shapes.resize(drums.size());
+        textures.resize(drums.size());
         samples.resize(drums.size());
         sound_buffers.resize(drums.size());
         positions.resize(drums.size());
@@ -30,11 +31,25 @@ struct DrumButtonsManager
             shapes[i].setPosition(drums[i].position_on_screen.x, drums[i].position_on_screen.y);
             shapes[i].setRadius(drums[i].radius);
             shapes[i].setFillColor(sf::Color::Green);
+            // and texture
+            if (!drums[i].image_file.empty())
+            {
+                textures[i] = std::make_unique<sf::Texture>();
+                if (!textures[i]->loadFromFile(drums[i].image_file))
+                {
+                    throw std::runtime_error("Couldn't load image '" + Ion_DrumPad::App::getPath() + drums[i].image_file + "'.");
+                }
+                else
+                {
+                    shapes[i].setTexture(textures[i].get());
+                }
+            }
+            shapes[i].setPosition(drums[i].position_on_screen.x, drums[i].position_on_screen.y);
 
             // Load a Sound to play
             if (!sound_buffers[i].loadFromFile(drums[i].sound_file))
             {
-                throw std::runtime_error("Couldn't load sample '" + Ion_DrumPad::App::getPath() + drums[i].sound_file + "'.");
+                throw std::runtime_error("Couldn't load sound '" + Ion_DrumPad::App::getPath() + drums[i].sound_file + "'.");
             }
             samples[i].setBuffer(sound_buffers[i]);
         }
@@ -87,6 +102,7 @@ struct DrumButtonsManager
     std::vector<float> radiuses;
     std::vector<std::string> names;
     std::vector<sf::CircleShape> shapes;
+    std::vector<std::unique_ptr<sf::Texture>> textures;
     std::vector<sf::Sound> samples;
     std::vector<sf::SoundBuffer> sound_buffers;
     std::vector<Ion_DrumPad::Position> positions;
@@ -174,7 +190,12 @@ int main()
                     }
                     else if (event.mouseButton.button == sf::Mouse::Right)
                     {
-                        buttons_manager.shapes[index].setFillColor(sf::Color::Red);
+                        // Toggle colors except for black (0,0,255 -> 0,255,0 -> 0,255,255 -> ... -> 255,255,255 -> 0,0,255)
+                        auto color = buttons_manager.shapes[index].getFillColor();
+                        int number = ((color.r & 1) << 2) + ((color.g & 1) << 1) + (color.b & 1);
+                        int new_number = std::max((number + 1) % 0b1000, 0b001);
+                        sf::Color new_color(255 * ((new_number & 0b100) >> 2), 255 * ((new_number & 0b010) >> 1), 255 * (new_number & 0b001));
+                        buttons_manager.shapes[index].setFillColor(new_color);
                     }
                 }
             }
@@ -187,7 +208,9 @@ int main()
 
         window.clear();
         for (auto &button : buttons_manager.shapes)
+        {
             window.draw(button);
+        }
         window.draw(text);
         window.display();
     }

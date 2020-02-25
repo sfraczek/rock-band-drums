@@ -11,6 +11,8 @@ struct Drum
     std::string name;
     // Path to the sound file
     std::string sound_file;
+    // Path to the image file
+    std::string image_file;
     // Combination of keys to trigger
     std::vector<uint32_t> keyboard_buttons_combination;
     // Combination of joustick buttons to trigger

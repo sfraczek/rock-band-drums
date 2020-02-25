@@ -2,6 +2,7 @@
     {
         "name": "HiHat",
         "sound_file": "../sounds/Analog Hihat 1.ogg",
+        "image_file": "",
         "keyboard_buttons_combination": [
             19
         ],
@@ -17,6 +18,7 @@
     {
         "name": "Snare",
         "sound_file": "../sounds/Analog Snare 1.ogg",
+        "image_file": "../images/snare/rogers 1964 silver sparkle powertone (cleveland)_thumb.jpg",
         "keyboard_buttons_combination": [
             18
         ],
