@@ -2,7 +2,7 @@
     {
         "name": "HiHat",
         "sound_file": "../sounds/Analog Hihat 1.ogg",
-        "image_file": "",
+        "image_file": "../images/hihat/drum-kit-hi-hat.jpg",
         "keyboard_buttons_combination": [
             19
         ],

@@ -123,7 +123,7 @@ struct MainText : public sf::Text
             throw std::runtime_error("Could not load font '" + fname + "' from file.");
         }
 
-        setString("Press any key or joystick button");
+        setString("Click buttons with mouse or press assigned key or joystick button");
         setFont(font);
         setCharacterSize(30);
         setFillColor(sf::Color::Red);
