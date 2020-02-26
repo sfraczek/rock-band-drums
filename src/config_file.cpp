@@ -1,13 +1,14 @@
 #include "config_file.hpp"
 
-#include <string>
-#include <vector>
-#include <stdexcept>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #include "algebra.hpp"
 #include "drum.hpp"
+#include "util.hpp"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -45,7 +46,9 @@ void from_json(const json &j, Drum &d)
     j.at("sound_file").get_to(d.sound_file);
     j.at("image_file").get_to(d.image_file);
     j.at("keyboard_buttons_combination").get_to(d.keyboard_buttons_combination);
+    sort_make_unique(d.keyboard_buttons_combination);
     j.at("joystick_buttons_combination").get_to(d.joystick_buttons_combination);
+    sort_make_unique(d.joystick_buttons_combination);
     j.at("position_on_screen").get_to(d.position_on_screen);
     j.at("radius").get_to(d.radius);
 }

@@ -7,6 +7,7 @@
 
 namespace Ion_DrumPad
 {
+
 // Manages configuration file
 namespace ConfigFile
 {

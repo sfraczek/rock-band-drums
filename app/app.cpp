@@ -2,9 +2,13 @@
 
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+
+#include "timer.hpp"
+#include "util.hpp"
 
 struct DrumButtonsManager
 {
@@ -17,6 +21,8 @@ struct DrumButtonsManager
         sound_buffers.resize(drums.size());
         positions.resize(drums.size());
         radiuses.resize(drums.size());
+        keyboard_buttons_combination.resize(drums.size());
+        joystick_buttons_combination.reserve(drums.size());
 #ifdef DEBUG
         last_distances.resize(drums.size(), -1);
         std::vector<uint32_t> count(drums.size(), 0);
@@ -26,6 +32,8 @@ struct DrumButtonsManager
             names[i] = drums[i].name;
             positions[i] = drums[i].position_on_screen;
             radiuses[i] = drums[i].radius;
+            keyboard_buttons_combination[i] = drums[i].keyboard_buttons_combination;
+            joystick_buttons_combination[i] = drums[i].joystick_buttons_combination;
 
             // Create button shape
             shapes[i].setPosition(drums[i].position_on_screen.x, drums[i].position_on_screen.y);
@@ -55,23 +63,6 @@ struct DrumButtonsManager
         }
     }
 
-#ifdef DEBUG
-    inline bool Contains(const Ion_DrumPad::Position &p, float radius, int32_t x, int32_t y, float &last_distance)
-    {
-        float dx = p.x + radius - x;
-        float dy = p.y + radius - y;
-        last_distance = std::hypot(dx, dy);
-        return last_distance < radius;
-    }
-#else
-    inline bool Contains(const Ion_DrumPad::Position &p, float radius, int32_t x, int32_t y)
-    {
-        float dx = p.x + radius - x;
-        float dy = p.y + radius - y;
-        return std::hypot(dx, dy) < radius;
-    }
-#endif
-
     size_t GetButtonIndexAt(int32_t x, int32_t y)
     {
         for (int i = 0; i < positions.size(); i++)
@@ -99,6 +90,49 @@ struct DrumButtonsManager
 #endif
     }
 
+    size_t GetButtonIndexByKeyboardCombo(const std::vector<uint32_t> &combo)
+    {
+        for (int i = 0; i < keyboard_buttons_combination.size(); i++)
+        {
+            if (std::is_permutation(combo.begin(), combo.end(), keyboard_buttons_combination[i].begin()))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    size_t GetButtonIndexByJoystickCombo(const std::vector<uint32_t> &combo)
+    {
+        for (int i = 0; i < joystick_buttons_combination.size(); i++)
+        {
+            if (combo == joystick_buttons_combination[i])
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+private:
+#ifdef DEBUG
+    inline bool Contains(const Ion_DrumPad::Position &p, float radius, int32_t x, int32_t y, float &last_distance)
+    {
+        float dx = p.x + radius - x;
+        float dy = p.y + radius - y;
+        last_distance = std::hypot(dx, dy);
+        return last_distance < radius;
+    }
+#else
+    inline bool Contains(const Ion_DrumPad::Position &p, float radius, int32_t x, int32_t y)
+    {
+        float dx = p.x + radius - x;
+        float dy = p.y + radius - y;
+        return std::hypot(dx, dy) < radius;
+    }
+#endif
+
+public:
     std::vector<float> radiuses;
     std::vector<std::string> names;
     std::vector<sf::CircleShape> shapes;
@@ -143,6 +177,8 @@ int main()
     MainText text(app.default_font);
 
     DrumButtonsManager buttons_manager(app.drums);
+
+    Timer combo_timer;
 
     while (window.isOpen())
     {
@@ -203,6 +239,30 @@ int main()
 
             default:
                 break;
+            }
+        }
+
+        if (combo_timer.IsItTime(app.ms_delay))
+        {
+            if (!app.keybord_buttons_pressed.empty())
+            {
+                Ion_DrumPad::sort_make_unique(app.keybord_buttons_pressed);
+                auto index = buttons_manager.GetButtonIndexByKeyboardCombo(app.keybord_buttons_pressed);
+                app.keybord_buttons_pressed.clear();
+                if (index != -1)
+                {
+                    buttons_manager.Click(index);
+                }
+            }
+            if (!app.joystick_buttons_pressed.empty())
+            {
+                Ion_DrumPad::sort_make_unique(app.joystick_buttons_pressed);
+                auto index = buttons_manager.GetButtonIndexByJoystickCombo(app.joystick_buttons_pressed);
+                app.joystick_buttons_pressed.clear();
+                if (index != -1)
+                {
+                    buttons_manager.Click(index);
+                }
             }
         }
 

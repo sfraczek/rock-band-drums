@@ -1,15 +1,16 @@
 #pragma once
 
+#include <chrono>
 #include <string>
 #include <vector>
 
-#include "config_file.hpp"
 #include "algebra.hpp"
+#include "config_file.hpp"
 #include "drum.hpp"
+#include "timer.hpp"
 
 namespace Ion_DrumPad
 {
-
 // Defines application callbacks and settings
 struct App
 {
@@ -33,9 +34,10 @@ struct App
   const std::string default_font{"C:\\Windows\\Fonts\\arial.ttf"};
 #elif __linux__
   const std::string default_font{"/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"};
-#else
-
 #endif
+  const std::chrono::milliseconds ms_delay{16};
+  std::vector<uint32_t> keybord_buttons_pressed;
+  std::vector<uint32_t> joystick_buttons_pressed;
 };
 
 } // namespace Ion_DrumPad
