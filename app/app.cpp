@@ -94,7 +94,7 @@ struct DrumButtonsManager
     {
         for (int i = 0; i < keyboard_buttons_combination.size(); i++)
         {
-            if (std::is_permutation(combo.begin(), combo.end(), keyboard_buttons_combination[i].begin()))
+            if (combo == keyboard_buttons_combination[i])
             {
                 return i;
             }
@@ -252,7 +252,7 @@ int main()
                 if (index != -1)
                 {
                     buttons_manager.Click(index);
-                } 
+                }  
             }
             if (!app.joystick_buttons_pressed.empty())
             {
@@ -262,7 +262,7 @@ int main()
                 if (index != -1)
                 {
                     buttons_manager.Click(index);
-                }
+                } 
             }
         }
 

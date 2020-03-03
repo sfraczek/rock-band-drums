@@ -59,7 +59,10 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "forward_list": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "complex": "cpp",
+        "list": "cpp",
+        "typeindex": "cpp"
     },
     "search.exclude": {
         "**/build*": true,
