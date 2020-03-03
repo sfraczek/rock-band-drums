@@ -6,10 +6,11 @@
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
 #include "algebra.hpp"
 #include "drum.hpp"
 #include "util.hpp"
-#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
