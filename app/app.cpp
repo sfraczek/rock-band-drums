@@ -246,25 +246,36 @@ int main()
         {
             if (!app.keybord_buttons_pressed.empty())
             {
-                auto subsets = app.GetAllSubsetsSorted(app.keybord_buttons_pressed);
-
                 Ion_DrumPad::sort_make_unique(app.keybord_buttons_pressed);
-                auto index = buttons_manager.GetButtonIndexByKeyboardCombo(app.keybord_buttons_pressed);
-                app.keybord_buttons_pressed.clear();
-                if (index != -1)
+                auto subsets = app.GetAllSubsetsSorted(app.keybord_buttons_pressed);
+                for (auto &subset : subsets)
                 {
-                    buttons_manager.Click(index);
+                    auto index = buttons_manager.GetButtonIndexByKeyboardCombo(subset);
+                    if (index != -1)
+                    {
+                        app.keybord_buttons_pressed.clear();
+                        buttons_manager.Click(index);
+                        break;
+                    }
                 }
+                app.keybord_buttons_pressed.clear();
             }
             if (!app.joystick_buttons_pressed.empty())
             {
                 Ion_DrumPad::sort_make_unique(app.joystick_buttons_pressed);
-                auto index = buttons_manager.GetButtonIndexByJoystickCombo(app.joystick_buttons_pressed);
-                app.joystick_buttons_pressed.clear();
-                if (index != -1)
+                auto subsets = app.GetAllSubsetsSorted(app.joystick_buttons_pressed);
+                for (auto &subset : subsets)
                 {
-                    buttons_manager.Click(index);
+                    auto index = buttons_manager.GetButtonIndexByJoystickCombo(subset);
+                    app.joystick_buttons_pressed.clear();
+                    if (index != -1)
+                    {
+                        app.joystick_buttons_pressed.clear();
+                        buttons_manager.Click(index);
+                        break;
+                    }
                 }
+                app.joystick_buttons_pressed.clear();
             }
         }
 
