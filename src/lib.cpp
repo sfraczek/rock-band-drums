@@ -1,5 +1,6 @@
 #include "lib.hpp"
 
+#include <algorithm>
 #include <iostream>
 
 #ifdef _WIN32
@@ -58,12 +59,12 @@ void Ion_DrumPad::App::JoystickDisconnectedCallback(uint32_t joystick_id)
     std::cout << "joystick disconnected: " << joystick_id << std::endl;
 }
 
-std::vector<std::vector<uint32_t>> Ion_DrumPad::App::GetAllSubsets(const std::vector<uint32_t>& set)
+std::vector<std::vector<uint32_t>> Ion_DrumPad::App::GetAllSubsets(const std::vector<uint32_t> &set)
 {
     // Don't allocate empty set so 2^n - 1
     std::vector<std::vector<uint32_t>> all_subsets((1 << set.size()) - 1);
     uint32_t counter = 1;
-    for (auto& subset : all_subsets)
+    for (auto &subset : all_subsets)
     {
         for (uint32_t bit_shift = 0; bit_shift < set.size(); bit_shift++)
         {
@@ -73,4 +74,15 @@ std::vector<std::vector<uint32_t>> Ion_DrumPad::App::GetAllSubsets(const std::ve
         ++counter;
     }
     return all_subsets;
+}
+
+std::vector<std::vector<uint32_t>> Ion_DrumPad::App::GetAllSubsetsSorted(const std::vector<uint32_t> &set)
+{
+    auto subsets = GetAllSubsets(set);
+    // sort them by size in descending order
+    std::sort(subsets.begin(), subsets.end(),
+              [](auto &a, auto &b) {
+                  return a.size() > b.size();
+              });
+    return subsets;
 }

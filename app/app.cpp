@@ -246,13 +246,15 @@ int main()
         {
             if (!app.keybord_buttons_pressed.empty())
             {
+                auto subsets = app.GetAllSubsetsSorted(app.keybord_buttons_pressed);
+
                 Ion_DrumPad::sort_make_unique(app.keybord_buttons_pressed);
                 auto index = buttons_manager.GetButtonIndexByKeyboardCombo(app.keybord_buttons_pressed);
                 app.keybord_buttons_pressed.clear();
                 if (index != -1)
                 {
                     buttons_manager.Click(index);
-                }  
+                }
             }
             if (!app.joystick_buttons_pressed.empty())
             {
@@ -262,7 +264,7 @@ int main()
                 if (index != -1)
                 {
                     buttons_manager.Click(index);
-                } 
+                }
             }
         }
 

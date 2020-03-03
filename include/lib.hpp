@@ -24,6 +24,7 @@ struct App
   void JoystickDisconnectedCallback(uint32_t joystick_id);
 
   std::vector<std::vector<uint32_t>> GetAllSubsets(const std::vector<uint32_t>& set);
+  std::vector<std::vector<uint32_t>> GetAllSubsetsSorted(const std::vector<uint32_t>& set);
 
   // Get current working directory
   static std::string GetPath();
