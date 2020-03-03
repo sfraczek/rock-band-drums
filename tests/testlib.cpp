@@ -1,10 +1,10 @@
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
 #include "lib.hpp"
+#include <catch2/catch.hpp>
 
 using Ion_DrumPad::App;
 
-TEST_CASE("App", "Public variables")
+TEST_CASE("Public variables", "App")
 {
     App app;
 
@@ -13,7 +13,7 @@ TEST_CASE("App", "Public variables")
     REQUIRE(app.window_title == "Ion Drum Pad");
 }
 
-TEST_CASE("App", "Callbacks don't throw")
+TEST_CASE("Callbacks don't throw", "App")
 {
     App app;
 
@@ -26,4 +26,13 @@ TEST_CASE("App", "Callbacks don't throw")
     REQUIRE_NOTHROW(app.JoystickButtonReleasedCallback(joystick_id, joystick_button));
     REQUIRE_NOTHROW(app.JoystickDisconnectedCallback(joystick_id));
     REQUIRE_NOTHROW(app.JoystickConnectedCallback(joystick_id));
+}
+
+TEST_CASE("GetAllSubsets", "App")
+{
+    App app;
+
+    REQUIRE(app.GetAllSubsets({}) == std::vector<std::vector<uint32_t>>{});
+    REQUIRE(app.GetAllSubsets({0, 1, 2, 3}) == std::vector<std::vector<uint32_t>>{
+                                                   {0}, {1}, {0, 1}, {2}, {0, 2}, {1, 2}, {0, 1, 2}, {3}, {0, 3}, {1, 3}, {0, 1, 3}, {2, 3}, {0, 2, 3}, {1, 2, 3}, {0, 1, 2, 3}});
 }

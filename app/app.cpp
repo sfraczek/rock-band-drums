@@ -45,7 +45,7 @@ struct DrumButtonsManager
                 textures[i] = std::make_unique<sf::Texture>();
                 if (!textures[i]->loadFromFile(drums[i].image_file))
                 {
-                    throw std::runtime_error("Couldn't load image '" + Ion_DrumPad::App::getPath() + drums[i].image_file + "'.");
+                    throw std::runtime_error("Couldn't load image '" + Ion_DrumPad::App::GetPath() + drums[i].image_file + "'.");
                 }
                 else
                 {
@@ -57,7 +57,7 @@ struct DrumButtonsManager
             // Load a Sound to play
             if (!sound_buffers[i].loadFromFile(drums[i].sound_file))
             {
-                throw std::runtime_error("Couldn't load sound '" + Ion_DrumPad::App::getPath() + drums[i].sound_file + "'.");
+                throw std::runtime_error("Couldn't load sound '" + Ion_DrumPad::App::GetPath() + drums[i].sound_file + "'.");
             }
             samples[i].setBuffer(sound_buffers[i]);
         }
@@ -252,7 +252,7 @@ int main()
                 if (index != -1)
                 {
                     buttons_manager.Click(index);
-                }
+                } 
             }
             if (!app.joystick_buttons_pressed.empty())
             {
