@@ -12,22 +12,23 @@
 
 struct DrumButtonsManager
 {
-    explicit DrumButtonsManager(const std::vector<Ion_DrumPad::Drum> drums)
+    explicit DrumButtonsManager(const std::vector<Ion_DrumPad::Drum>& drums)
     {
-        names.resize(drums.size());
-        shapes.resize(drums.size());
-        textures.resize(drums.size());
-        samples.resize(drums.size());
-        sound_buffers.resize(drums.size());
-        positions.resize(drums.size());
-        radiuses.resize(drums.size());
-        keyboard_buttons_combination.resize(drums.size());
-        joystick_buttons_combination.reserve(drums.size());
+        auto size = drums.size();
+        names.resize(size);
+        sound_buffers.resize(size);
+        positions.resize(size);
+        radiuses.resize(size);
+        keyboard_buttons_combination.resize(size);
+        joystick_buttons_combination.reserve(size);
+        shapes.resize(size);
+        textures.resize(size);
+        samples.resize(size);
 #ifdef DEBUG
-        last_distances.resize(drums.size(), -1);
-        std::vector<uint32_t> count(drums.size(), 0);
+        last_distances.resize(size, -1);
+        std::vector<uint32_t> count(size, 0);
 #endif
-        for (size_t i = 0; i < drums.size(); i++)
+        for (size_t i = 0; i < size; i++)
         {
             names[i] = drums[i].name;
             positions[i] = drums[i].position_on_screen;
@@ -45,7 +46,7 @@ struct DrumButtonsManager
                 textures[i] = std::make_unique<sf::Texture>();
                 if (!textures[i]->loadFromFile(drums[i].image_file))
                 {
-                    throw std::runtime_error("Couldn't load image '" + Ion_DrumPad::App::getPath() + drums[i].image_file + "'.");
+                    throw std::runtime_error("Couldn't load image '" + Ion_DrumPad::App::GetPath() + drums[i].image_file + "'.");
                 }
                 else
                 {
@@ -57,7 +58,7 @@ struct DrumButtonsManager
             // Load a Sound to play
             if (!sound_buffers[i].loadFromFile(drums[i].sound_file))
             {
-                throw std::runtime_error("Couldn't load sound '" + Ion_DrumPad::App::getPath() + drums[i].sound_file + "'.");
+                throw std::runtime_error("Couldn't load sound '" + Ion_DrumPad::App::GetPath() + drums[i].sound_file + "'.");
             }
             samples[i].setBuffer(sound_buffers[i]);
         }
@@ -79,39 +80,53 @@ struct DrumButtonsManager
         return -1;
     }
 
-    void Click(size_t index)
+    void Press(size_t index)
     {
         samples[index].play();
 #ifdef DEBUG
         std::cout << "Visual button pressed!" << std::endl;
         std::cout << "Visual button name: " << names[index] << std::endl;
         std::cout << "Visual button distance: " << last_distances[index] << std::endl;
-        std::cout << "Clicked for " << count[index]++ << " time" << std::endl;
+        std::cout << "Pressed for " << count[index]++ << " time" << std::endl;
 #endif
     }
 
-    size_t GetButtonIndexByKeyboardCombo(const std::vector<uint32_t> &combo)
+    void PressButtonsBasedOnKeyboardCombo(std::vector<uint32_t> combo)
     {
-        for (int i = 0; i < keyboard_buttons_combination.size(); i++)
+#ifdef DEBUG
+        std::cout << "PressButtonsBasedOnKeyboardCombo: " << combo << std::endl;
+#endif
+        for (int i = 0; i < keyboard_buttons_combination.size(); ++i)
         {
-            if (std::is_permutation(combo.begin(), combo.end(), keyboard_buttons_combination[i].begin()))
+            auto new_combo = Ion_DrumPad::RemoveSubset(keyboard_buttons_combination[i], combo);
+            if (!new_combo.empty())
             {
-                return i;
+#ifdef DEBUG
+                std::cout << "Keyboard combo found: " << keyboard_buttons_combination[i] << ". New combo: " << new_combo << std::endl;
+#endif
+                Press(i);
+                combo = new_combo;
             }
         }
-        return -1;
     }
 
-    size_t GetButtonIndexByJoystickCombo(const std::vector<uint32_t> &combo)
+    void PressButtonsBasedOnJoystickCombo(std::vector<uint32_t> combo)
     {
-        for (int i = 0; i < joystick_buttons_combination.size(); i++)
+#ifdef DEBUG
+        std::cout << "PressButtonsBasedOnJoystickCombo: " << combo << std::endl;
+#endif
+        for (int i = 0; i < joystick_buttons_combination.size(); ++i)
         {
-            if (combo == joystick_buttons_combination[i])
+            auto new_combo = Ion_DrumPad::RemoveSubset(joystick_buttons_combination[i], combo);
+            if (!new_combo.empty())
             {
-                return i;
+#ifdef DEBUG
+                std::cout << "Joystick combo found: " << joystick_buttons_combination[i] << " in " << combo << std::endl;
+#endif
+                Press(i);
+                combo = new_combo;
             }
         }
-        return -1;
     }
 
 private:
@@ -144,7 +159,7 @@ public:
     std::vector<std::vector<uint32_t>> joystick_buttons_combination;
 #ifdef DEBUG
     std::vector<float> last_distances;
-    std::vector<uint32_t> count(drums.size(), 0);
+    std::vector<uint32_t> count(size, 0);
 #endif
 };
 
@@ -157,7 +172,7 @@ struct MainText : public sf::Text
             throw std::runtime_error("Could not load font '" + fname + "' from file.");
         }
 
-        setString("Click buttons with mouse or press assigned key or joystick button");
+        setString("Click buttons, press keys or joystick buttons");
         setFont(font);
         setCharacterSize(30);
         setFillColor(sf::Color::Red);
@@ -222,7 +237,7 @@ int main()
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        buttons_manager.Click(index);
+                        buttons_manager.Press(index);
                     }
                     else if (event.mouseButton.button == sf::Mouse::Right)
                     {
@@ -246,23 +261,15 @@ int main()
         {
             if (!app.keybord_buttons_pressed.empty())
             {
-                Ion_DrumPad::sort_make_unique(app.keybord_buttons_pressed);
-                auto index = buttons_manager.GetButtonIndexByKeyboardCombo(app.keybord_buttons_pressed);
+                Ion_DrumPad::SortMakeUnique(app.keybord_buttons_pressed);
+                buttons_manager.PressButtonsBasedOnKeyboardCombo(app.keybord_buttons_pressed);
                 app.keybord_buttons_pressed.clear();
-                if (index != -1)
-                {
-                    buttons_manager.Click(index);
-                }
             }
             if (!app.joystick_buttons_pressed.empty())
             {
-                Ion_DrumPad::sort_make_unique(app.joystick_buttons_pressed);
-                auto index = buttons_manager.GetButtonIndexByJoystickCombo(app.joystick_buttons_pressed);
+                Ion_DrumPad::SortMakeUnique(app.joystick_buttons_pressed);
+                buttons_manager.PressButtonsBasedOnJoystickCombo(app.joystick_buttons_pressed);
                 app.joystick_buttons_pressed.clear();
-                if (index != -1)
-                {
-                    buttons_manager.Click(index);
-                }
             }
         }
 

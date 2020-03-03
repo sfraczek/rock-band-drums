@@ -30,5 +30,21 @@
             "y": 100
         },
         "radius": 80
+    },
+    {
+        "name": "Kick",
+        "sound_file": "../sounds/Analog Kick 1.ogg",
+        "image_file": "../images/kick/drum-kit-pedal.jpg",
+        "keyboard_buttons_combination": [
+            7,18
+        ],
+        "joystick_buttons_combination": [
+            2
+        ],
+        "position_on_screen": {
+            "x": 600,
+            "y": 100
+        },
+        "radius": 80
     }
 ]

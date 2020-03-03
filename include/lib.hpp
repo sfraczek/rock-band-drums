@@ -24,7 +24,7 @@ struct App
   void JoystickDisconnectedCallback(uint32_t joystick_id);
 
   // Get current working directory
-  static std::string getPath();
+  static std::string GetPath();
 
   const Dimensions window_size{800, 600};
   const std::string window_title{"Ion Drum Pad"};

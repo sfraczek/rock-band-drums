@@ -10,10 +10,11 @@
 #define GetCurrentDir getcwd
 #endif
 
-std::string Ion_DrumPad::App::getPath()
+std::string Ion_DrumPad::App::GetPath()
 {
     char buff[FILENAME_MAX];
-    if (GetCurrentDir(buff, FILENAME_MAX) == NULL) {
+    if (GetCurrentDir(buff, FILENAME_MAX) == NULL)
+    {
         throw std::runtime_error("Failed to get working directory path from OS.");
     }
     return std::string{buff};
