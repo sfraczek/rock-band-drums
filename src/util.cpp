@@ -9,7 +9,7 @@ void Ion_DrumPad::SortMakeUnique(std::vector<uint32_t> &v)
     v.resize(std::distance(v.begin(), ep));
 }
 
-std::vector<uint32_t> Ion_DrumPad::RemoveSubset(const std::vector<uint32_t> &elements, const std::vector<uint32_t> &vec)
+std::optional<std::vector<uint32_t>> Ion_DrumPad::RemoveSubset(const std::vector<uint32_t> &elements, const std::vector<uint32_t> &vec)
 {
     std::vector<uint32_t> new_set;
     auto vec_it = vec.begin();
@@ -17,7 +17,7 @@ std::vector<uint32_t> Ion_DrumPad::RemoveSubset(const std::vector<uint32_t> &ele
     while (el_it != elements.end())
     {
         if (vec_it == vec.end())
-            return {};
+            return std::nullopt;
         if (*vec_it == *el_it)
         {
             ++el_it;

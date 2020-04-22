@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include <nlohmann/json.hpp>
 
@@ -57,6 +58,17 @@ void from_json(const json &j, Drum &d)
 std::vector<Drum> Ion_DrumPad::ConfigFile::ReadFromFile(std::string file)
 {
     std::ifstream ifs(file);
+    if (!ifs.is_open()) {
+        std::filesystem::path fpath(file);
+        std::string to_append = fpath.string() + " in path: " + std::filesystem::current_path().string();
+        if (std::filesystem::exists(file)) {
+            throw std::runtime_error("File does not exist: " + to_append);
+        }
+        else
+        {
+            throw std::runtime_error("Could not open file: " + to_append);
+        }
+    }
     json js_drum_list = json::parse(ifs);
     std::vector<Drum> drums;
     for (auto &js_drum : js_drum_list)

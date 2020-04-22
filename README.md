@@ -17,10 +17,20 @@ First cmake configure:
 ```bash
 cmake .. -G "MinGW Makefiles"
 ```
+or:
+```bash
+cmake .. -G "Visual Studio 16 2019"
+```
 
  then build:
 ```bash
-"C:\Program Files\CMake\bin\cmake.EXE" --build c:/Users/sfraczek/Documents/C++/ion-drumpad/build --config Debug --target all -j 4
+#"C:\Program Files\CMake\bin\cmake.EXE" --build c:/Users/sfraczek/Documents/C++/ion-drumpad/build --config Debug --target all -j 4
+cmake -- build .
+cp _deps/sfml-build/lib/Debug/*.dll app/
+cp _deps/sfml-src/extlibs/bin/x64/*.dll app/
+cp ../config.json app/
+cp -r ../sounds app/
+cp -r ../images app/
 ```
 
 ### How to run app

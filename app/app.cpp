@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <filesystem>
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -20,7 +21,7 @@ struct DrumButtonsManager
         positions.resize(size);
         radiuses.resize(size);
         keyboard_buttons_combination.resize(size);
-        joystick_buttons_combination.reserve(size);
+        joystick_buttons_combination.resize(size);
         shapes.resize(size);
         textures.resize(size);
         samples.resize(size);
@@ -46,7 +47,7 @@ struct DrumButtonsManager
                 textures[i] = std::make_unique<sf::Texture>();
                 if (!textures[i]->loadFromFile(drums[i].image_file))
                 {
-                    throw std::runtime_error("Couldn't load image '" + Ion_DrumPad::App::GetPath() + drums[i].image_file + "'.");
+                    throw std::runtime_error("Couldn't load image '" + std::filesystem::current_path().string() + drums[i].image_file + "'.");
                 }
                 else
                 {
@@ -58,7 +59,7 @@ struct DrumButtonsManager
             // Load a Sound to play
             if (!sound_buffers[i].loadFromFile(drums[i].sound_file))
             {
-                throw std::runtime_error("Couldn't load sound '" + Ion_DrumPad::App::GetPath() + drums[i].sound_file + "'.");
+                throw std::runtime_error("Couldn't load sound '" + std::filesystem::current_path().string() + drums[i].sound_file + "'.");
             }
             samples[i].setBuffer(sound_buffers[i]);
         }
@@ -98,14 +99,15 @@ struct DrumButtonsManager
 #endif
         for (int i = 0; i < keyboard_buttons_combination.size(); ++i)
         {
-            auto new_combo = Ion_DrumPad::RemoveSubset(keyboard_buttons_combination[i], combo);
-            if (!new_combo.empty())
+            if(auto new_combo = Ion_DrumPad::RemoveSubset(keyboard_buttons_combination[i], combo))
             {
 #ifdef DEBUG
-                std::cout << "Keyboard combo found: " << keyboard_buttons_combination[i] << ". New combo: " << new_combo << std::endl;
+                std::cout << "Keyboard combo found: " << keyboard_buttons_combination[i] << ". New combo: " << new_combo.value() << std::endl;
 #endif
                 Press(i);
-                combo = new_combo;
+                if (new_combo.value().empty())
+                    break;
+                combo = std::move(new_combo.value());
             }
         }
     }
@@ -117,14 +119,15 @@ struct DrumButtonsManager
 #endif
         for (int i = 0; i < joystick_buttons_combination.size(); ++i)
         {
-            auto new_combo = Ion_DrumPad::RemoveSubset(joystick_buttons_combination[i], combo);
-            if (!new_combo.empty())
+            if(auto new_combo = Ion_DrumPad::RemoveSubset(joystick_buttons_combination[i], combo))
             {
 #ifdef DEBUG
-                std::cout << "Joystick combo found: " << joystick_buttons_combination[i] << " in " << combo << std::endl;
+                std::cout << "Joystick combo found: " << joystick_buttons_combination[i] << " in " << combo.value() << std::endl;
 #endif
                 Press(i);
-                combo = new_combo;
+                if (new_combo.value().empty())
+                    break;
+                combo = std::move(new_combo.value());
             }
         }
     }

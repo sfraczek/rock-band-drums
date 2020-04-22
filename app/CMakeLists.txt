@@ -1,3 +1,4 @@
+add_definitions(-D_HAS_AUTO_PTR_ETC=1)
 # GUI library
 FetchContent_Declare(
     sfml

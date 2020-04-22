@@ -23,12 +23,9 @@ struct App
   void JoystickConnectedCallback(uint32_t joystick_id);
   void JoystickDisconnectedCallback(uint32_t joystick_id);
 
-  // Get current working directory
-  static std::string GetPath();
-
   const Dimensions window_size{800, 600};
   const std::string window_title{"Ion Drum Pad"};
-  const std::string config_path{"../config.json"};
+  const std::string config_path{"config.json"};
   const std::vector<Drum> drums;
 #ifdef _WIN32
   const std::string default_font{"C:\\Windows\\Fonts\\arial.ttf"};

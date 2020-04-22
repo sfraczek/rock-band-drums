@@ -41,11 +41,11 @@ TEST_CASE("RemoveSubset", "util")
     REQUIRE(RemoveSubset({10, 13}, {10, 11, 12, 13}) == std::vector<uint32_t>{11, 12});
     REQUIRE(RemoveSubset({10, 11, 12, 13}, {10, 11, 12, 13}) == std::vector<uint32_t>{});
 
-    REQUIRE(RemoveSubset({14}, {10, 11, 12, 13}) == std::vector<uint32_t>{});
-    REQUIRE(RemoveSubset({14, 15}, {10, 11, 12, 13}) == std::vector<uint32_t>{});
-    REQUIRE(RemoveSubset({10, 15}, {10, 11, 12, 13}) == std::vector<uint32_t>{});
-    REQUIRE(RemoveSubset({10, 11, 12, 13, 14}, {10, 11, 12, 13}) == std::vector<uint32_t>{});
-    REQUIRE(RemoveSubset({10, 11}, {}) == std::vector<uint32_t>{});
+    REQUIRE(RemoveSubset({14}, {10, 11, 12, 13}).has_value() == false);
+    REQUIRE(RemoveSubset({14, 15}, {10, 11, 12, 13}).has_value() == false);
+    REQUIRE(RemoveSubset({10, 15}, {10, 11, 12, 13}).has_value() == false);
+    REQUIRE(RemoveSubset({10, 11, 12, 13, 14}, {10, 11, 12, 13}).has_value() == false);
+    REQUIRE(RemoveSubset({10, 11}, {}).has_value() == false);
     REQUIRE(RemoveSubset({}, {}) == std::vector<uint32_t>{});
 }
 

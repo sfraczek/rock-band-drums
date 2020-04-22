@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 3.11...3.15)
 project(IONDrumPad VERSION 0.1 DESCRIPTION "Play Ion Drum Pad on PC" LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 ### Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")

@@ -1,8 +1,8 @@
 [
     {
         "name": "HiHat",
-        "sound_file": "../sounds/Analog Hihat 1.ogg",
-        "image_file": "../images/hihat/drum-kit-hi-hat.jpg",
+        "sound_file": "sounds/Analog Hihat 1.ogg",
+        "image_file": "images/hihat/drum-kit-hi-hat.jpg",
         "keyboard_buttons_combination": [
             7
         ],
@@ -17,8 +17,8 @@
     },
     {
         "name": "Snare",
-        "sound_file": "../sounds/Analog Snare 1.ogg",
-        "image_file": "../images/snare/rogers 1964 silver sparkle powertone (cleveland)_thumb.jpg",
+        "sound_file": "sounds/Analog Snare 1.ogg",
+        "image_file": "images/snare/rogers 1964 silver sparkle powertone (cleveland)_thumb.jpg",
         "keyboard_buttons_combination": [
             18
         ],
@@ -33,8 +33,8 @@
     },
     {
         "name": "Kick",
-        "sound_file": "../sounds/Analog Kick 1.ogg",
-        "image_file": "../images/kick/drum-kit-pedal.jpg",
+        "sound_file": "sounds/Analog Kick 1.ogg",
+        "image_file": "images/kick/drum-kit-pedal.jpg",
         "keyboard_buttons_combination": [
             7,18
         ],
