@@ -20,8 +20,8 @@ struct DrumButtonsManager
         sound_buffers.resize(size);
         positions.resize(size);
         radiuses.resize(size);
-        keyboard_buttons_combination.resize(size);
-        joystick_buttons_combination.resize(size);
+        keyboard_buttons_combination_and_id.resize(size);
+        joystick_buttons_combination_and_id.resize(size);
         shapes.resize(size);
         textures.resize(size);
         samples.resize(size);
@@ -34,8 +34,8 @@ struct DrumButtonsManager
             names[i] = drums[i].name;
             positions[i] = drums[i].position_on_screen;
             radiuses[i] = drums[i].radius;
-            keyboard_buttons_combination[i] = drums[i].keyboard_buttons_combination;
-            joystick_buttons_combination[i] = drums[i].joystick_buttons_combination;
+            keyboard_buttons_combination_and_id[i] = make_pair(drums[i].keyboard_buttons_combination, static_cast<uint32_t>(i));
+            joystick_buttons_combination_and_id[i] = make_pair(drums[i].joystick_buttons_combination, static_cast<uint32_t>(i));
 
             // Create button shape
             shapes[i].setPosition(drums[i].position_on_screen.x, drums[i].position_on_screen.y);
@@ -63,6 +63,9 @@ struct DrumButtonsManager
             }
             samples[i].setBuffer(sound_buffers[i]);
         }
+        auto sort_by_combo_length_descending = [](auto p1, auto p2) {return p1.first.size() > p2.first.size();};
+        std::sort(keyboard_buttons_combination_and_id.begin(),keyboard_buttons_combination_and_id.end(), sort_by_combo_length_descending);
+        std::sort(joystick_buttons_combination_and_id.begin(),joystick_buttons_combination_and_id.end(), sort_by_combo_length_descending);
     }
 
     size_t GetButtonIndexAt(int32_t x, int32_t y)
@@ -97,14 +100,14 @@ struct DrumButtonsManager
 #ifdef DEBUG
         std::cout << "PressButtonsBasedOnKeyboardCombo: " << combo << std::endl;
 #endif
-        for (int i = 0; i < keyboard_buttons_combination.size(); ++i)
+        for (int i = 0; i < keyboard_buttons_combination_and_id.size(); ++i)
         {
-            if(auto new_combo = Ion_DrumPad::RemoveSubset(keyboard_buttons_combination[i], combo))
+            if(auto new_combo = Ion_DrumPad::RemoveSubset(keyboard_buttons_combination_and_id[i].first, combo))
             {
 #ifdef DEBUG
-                std::cout << "Keyboard combo found: " << keyboard_buttons_combination[i] << ". New combo: " << new_combo.value() << std::endl;
+                std::cout << "Keyboard combo found: " << keyboard_buttons_combination_and_id[i].first << ". New combo: " << new_combo.value() << std::endl;
 #endif
-                Press(i);
+                Press(keyboard_buttons_combination_and_id[i].second);
                 if (new_combo.value().empty())
                     break;
                 combo = std::move(new_combo.value());
@@ -117,14 +120,14 @@ struct DrumButtonsManager
 #ifdef DEBUG
         std::cout << "PressButtonsBasedOnJoystickCombo: " << combo << std::endl;
 #endif
-        for (int i = 0; i < joystick_buttons_combination.size(); ++i)
+        for (int i = 0; i < joystick_buttons_combination_and_id.size(); ++i)
         {
-            if(auto new_combo = Ion_DrumPad::RemoveSubset(joystick_buttons_combination[i], combo))
+            if(auto new_combo = Ion_DrumPad::RemoveSubset(joystick_buttons_combination_and_id[i].first, combo))
             {
 #ifdef DEBUG
-                std::cout << "Joystick combo found: " << joystick_buttons_combination[i] << " in " << combo.value() << std::endl;
+                std::cout << "Joystick combo found: " << joystick_buttons_combination_and_id[i].first << " in " << new_combo.value() << std::endl;
 #endif
-                Press(i);
+                Press(joystick_buttons_combination_and_id[i].second);
                 if (new_combo.value().empty())
                     break;
                 combo = std::move(new_combo.value());
@@ -158,8 +161,8 @@ public:
     std::vector<sf::Sound> samples;
     std::vector<sf::SoundBuffer> sound_buffers;
     std::vector<Ion_DrumPad::Position> positions;
-    std::vector<std::vector<uint32_t>> keyboard_buttons_combination;
-    std::vector<std::vector<uint32_t>> joystick_buttons_combination;
+    std::vector<std::pair<std::vector<uint32_t>,uint32_t>> keyboard_buttons_combination_and_id;
+    std::vector<std::pair<std::vector<uint32_t>,uint32_t>> joystick_buttons_combination_and_id;
 #ifdef DEBUG
     std::vector<float> last_distances;
     std::vector<uint32_t> count(size, 0);

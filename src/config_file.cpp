@@ -18,7 +18,7 @@ using json = nlohmann::json;
 namespace Ion_DrumPad
 {
 // Checks if data is correct
-void Validate(std::vector<Drum> drums)
+void Validate(const std::vector<Drum>& drums)
 {
     for (size_t i = 0; i < drums.size(); i++)
     {
