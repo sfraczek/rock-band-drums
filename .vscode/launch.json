@@ -8,15 +8,15 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/app/app.exe",
+            "program": "${workspaceFolder}/build/app/Debug/app.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build",
+            "cwd": "${workspaceFolder}/build/app/Debug",
             "environment": [
-                {
-                    "name": "PATH",
-                    "value": "$PATH:_deps/sfml-build/lib:_deps/sfml-src/extlibs/bin/x64"
-                }
+                // {
+                //     "name": "PATH",
+                //     "value": "$PATH:_deps/sfml-build/lib:_deps/sfml-src/extlibs/bin/x64"
+                // }
             ],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -39,15 +39,15 @@
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/app/app.exe",
+            "program": "${workspaceFolder}/build/app/Debug/app.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build",
+            "cwd": "${workspaceFolder}/build/app/Debug",
             "environment": [
-                {
-                    "name": "PATH",
-                    "value": "$PATH:_deps/sfml-build/lib:_deps/sfml-src/extlibs/bin/x64"
-                }
+                // {
+                //     "name": "PATH",
+                //     "value": "$PATH:_deps/sfml-build/lib:_deps/sfml-src/extlibs/bin/x64"
+                // }
             ],
             "externalConsole": false
         }
