@@ -1,4 +1,6 @@
 # Testing library
+
+# Adds Catch2::Catch2
 FetchContent_Declare(
     catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
@@ -7,14 +9,21 @@ FetchContent_Declare(
     GIT_SHALLOW    TRUE
 )
 FetchContent_MakeAvailable(catch2)
-# Adds Catch2::Catch2
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
+include(Catch)
 
 # Tests need to be added as executables first
-add_executable(testlib testlib.cpp)
+add_executable(testsuite test_lib.cpp test_util.cpp)
 
 # Should be linked to the main library, as well as the Catch2 testing library
-target_link_libraries(testlib PRIVATE lib Catch2::Catch2)
+target_link_libraries(testsuite PRIVATE libraries Catch2::Catch2)
 
-# If you register a test, then ctest and make test will run it.
-# You can also run examples and check the output, as well.
-add_test(NAME testlibtest COMMAND testlib) # Command can be a target
+# Somewhat speed up Catch2 compile times
+target_compile_definitions(testsuite
+    PRIVATE
+        CATCH_CONFIG_FAST_COMPILE
+        CATCH_CONFIG_DISABLE_MATCHERS
+)
+
+include(CTest)
+catch_discover_tests(testsuite)
