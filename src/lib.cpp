@@ -1,6 +1,5 @@
 #include "lib.hpp"
 
-#include <algorithm>
 #include <iostream>
 
 void Ion_DrumPad::App::KeyPressedCallback(uint32_t key_code)

@@ -12,8 +12,13 @@ FetchContent_MakeAvailable(catch2)
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 include(Catch)
 
+set(TEST_SOURCE_FILES
+    test_config_file.cpp
+    test_lib.cpp
+    test_util.cpp)
+
 # Tests need to be added as executables first
-add_executable(testsuite test_lib.cpp test_util.cpp)
+add_executable(testsuite ${TEST_SOURCE_FILES})
 
 # Should be linked to the main library, as well as the Catch2 testing library
 target_link_libraries(testsuite PRIVATE libraries Catch2::Catch2)
