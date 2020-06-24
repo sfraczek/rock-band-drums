@@ -8,13 +8,19 @@
 namespace Ion_DrumPad
 {
 
-// Manages configuration file
-namespace ConfigFile
-{
-// Reads config from file and calls Validate returns drums configuration
-std::vector<Drum> ReadFromFile(const std::string& file);
+    // Object holding configuration file
+    namespace ConfigFile
+    {
+        struct Config
+        {
+            // Reads config from file and calls Validate and initializes members
+            Config(const std::string &file);
+            // Checks if data is correct
+            void Validate();
+            std::vector<Drum> drums;
+        };
 
-// Raw string with default config file content
-extern const char* default_config;
-} // namespace ConfigFile
+        // Raw string with default config file content
+        extern const char *default_config;
+    } // namespace ConfigFile
 } // namespace Ion_DrumPad

@@ -41,11 +41,12 @@ private:
     std::ofstream fs;
 };
 
-TEST_CASE("ReadFromFile", "config_file")
+TEST_CASE("Read Config from file", "config_file")
 {
     TemporaryFile tmp_config_file;
     tmp_config_file.Write(default_config);
-    std::vector<Drum> drums = ReadFromFile(tmp_config_file.Name());
+    Config config(tmp_config_file.Name());
+    auto& drums = config.drums;
 
     REQUIRE(drums.size() == 3);
 

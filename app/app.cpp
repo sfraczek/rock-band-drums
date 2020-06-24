@@ -197,7 +197,7 @@ int main()
 
     MainText text(app.default_font);
 
-    DrumButtonsManager buttons_manager(app.drums);
+    DrumButtonsManager buttons_manager(app.config.drums);
 
     Timer combo_timer;
 
