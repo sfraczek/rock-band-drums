@@ -32,13 +32,14 @@ cmake .. -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Debug
 cp _deps/sfml-build/lib/Debug/*.dll app/Debug/
 cp _deps/sfml-src/extlibs/bin/x64/*.dll app/Debug/
 cp ../config.json app/Debug/
-cp ../config.json tests/
+cp ../config.json tests/Debug/
 cp -r ../sounds app/Debug/
 cp -r ../images app/Debug/
 
 # cp _deps/sfml-build/lib/Release/*.dll app/Release/
 # cp _deps/sfml-src/extlibs/bin/x64/*.dll app/Release/
 # cp ../config.json app/Release/
+# cp ../config.json tests/Release/
 # cp -r ../sounds app/Release/
 # cp -r ../images app/Release/
 ```
