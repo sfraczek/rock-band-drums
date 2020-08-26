@@ -12,15 +12,15 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/app/Debug",
-            "environment": [
+            // "environment": [
                 // {
                 //     "name": "PATH",
                 //     "value": "$PATH:_deps/sfml-build/lib:_deps/sfml-src/extlibs/bin/x64"
                 // }
-            ],
+            // ],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "/path/to/gdb",
+            "miDebuggerPath": "gdb.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
