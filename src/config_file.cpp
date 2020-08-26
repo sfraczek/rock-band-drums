@@ -86,8 +86,7 @@ namespace Ion_DrumPad
 
         const char *default_config = R"(
 {
-    "drums":
-    [
+    "drums": [
         {
             "name": "HiHat",
             "sound_file": "sounds/Analog Hihat 1.ogg",
@@ -96,7 +95,7 @@ namespace Ion_DrumPad
                 7
             ],
             "joystick_buttons_combination": [
-                0
+                3,11
             ],
             "position_on_screen": {
                 "x": 100,
@@ -112,7 +111,7 @@ namespace Ion_DrumPad
                 18
             ],
             "joystick_buttons_combination": [
-                1
+                10,2
             ],
             "position_on_screen": {
                 "x": 300,
@@ -125,10 +124,11 @@ namespace Ion_DrumPad
             "sound_file": "sounds/Analog Kick 1.ogg",
             "image_file": "images/kick/drum-kit-pedal.jpg",
             "keyboard_buttons_combination": [
-                7,18
+                7,
+                18
             ],
             "joystick_buttons_combination": [
-                2
+                4
             ],
             "position_on_screen": {
                 "x": 600,
