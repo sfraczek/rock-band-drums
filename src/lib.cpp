@@ -39,3 +39,8 @@ void Ion_DrumPad::App::JoystickDisconnectedCallback(uint32_t joystick_id)
 {
     std::cout << "joystick disconnected: " << joystick_id << std::endl;
 }
+
+  void Ion_DrumPad::App::JoystickMovedCallback(int axis, float joystick_position){
+      std::cout << "joystick moved in axis: " << axis << " to position: " << joystick_position << std::endl;
+      joystick_buttons_pressed.push_back(100 + axis);
+  }

@@ -91,49 +91,72 @@ namespace Ion_DrumPad
             "name": "HiHat",
             "sound_file": "sounds/Analog Hihat 1.ogg",
             "image_file": "images/hihat/drum-kit-hi-hat.jpg",
-            "keyboard_buttons_combination": [
-                7
-            ],
-            "joystick_buttons_combination": [
-                3,11
-            ],
-            "position_on_screen": {
-                "x": 100,
-                "y": 100
-            },
+            "keyboard_buttons_combination": [7],
+            "joystick_buttons_combination": [3,11,107],
+            "position_on_screen": {"x": 100,"y": 100},
             "radius": 80
         },
         {
             "name": "Snare",
             "sound_file": "sounds/Analog Snare 1.ogg",
             "image_file": "images/snare/rogers 1964 silver sparkle powertone (cleveland)_thumb.jpg",
-            "keyboard_buttons_combination": [
-                18
-            ],
-            "joystick_buttons_combination": [
-                10,2
-            ],
-            "position_on_screen": {
-                "x": 300,
-                "y": 100
-            },
+            "keyboard_buttons_combination": [18],
+            "joystick_buttons_combination": [2,10],
+            "position_on_screen": {"x": 300,"y": 100},
             "radius": 80
+        },
+        {
+            "name": "Tom-tom1",
+            "sound_file": "sounds/General Room Hi Tom.ogg",
+            "image_file": "images/tom/drum-kit-1488406125CbG.jpg",
+            "keyboard_buttons_combination": [999],
+            "joystick_buttons_combination": [3,10],
+            "position_on_screen": {"x": 500,"y": 100},
+            "radius": 60
+        },
+        {
+            "name": "Tom-tom2",
+            "sound_file": "sounds/General Room Mid Tom.ogg",
+            "image_file": "images/tom/drum-kit-1488406125CbG.jpg",
+            "keyboard_buttons_combination": [999],
+            "joystick_buttons_combination": [0,10],
+            "position_on_screen": {"x": 700,"y": 100},
+            "radius": 70
+        },
+        {
+            "name": "Tom-tom3",
+            "sound_file": "sounds/General Room Low Tom.ogg",
+            "image_file": "images/tom/drum-kit-1488406125CbG.jpg",
+            "keyboard_buttons_combination": [999],
+            "joystick_buttons_combination": [1,10],
+            "position_on_screen": {"x": 100,"y": 300},
+            "radius": 80
+        },
+        {
+            "name": "Crash",
+            "sound_file": "sounds/General Crash.ogg",
+            "image_file": "images/cymbal/320px-Bellotti_Cymbal.jfif",
+            "keyboard_buttons_combination": [999],
+            "joystick_buttons_combination": [2,12],
+            "position_on_screen": {"x": 300,"y": 300},
+            "radius": 80
+        },
+        {
+            "name": "Ride",
+            "sound_file": "sounds/General Ride.ogg",
+            "image_file": "images/cymbal/320px-Bellotti_Cymbal.jfif",
+            "keyboard_buttons_combination": [999],
+            "joystick_buttons_combination": [1,12,107],
+            "position_on_screen": {"x": 500,"y": 300},
+            "radius": 60
         },
         {
             "name": "Kick",
             "sound_file": "sounds/Analog Kick 1.ogg",
             "image_file": "images/kick/drum-kit-pedal.jpg",
-            "keyboard_buttons_combination": [
-                7,
-                18
-            ],
-            "joystick_buttons_combination": [
-                4
-            ],
-            "position_on_screen": {
-                "x": 600,
-                "y": 100
-            },
+            "keyboard_buttons_combination": [7,18],
+            "joystick_buttons_combination": [4],
+            "position_on_screen": {"x": 700,"y": 300},
             "radius": 80
         }
     ]

@@ -12,6 +12,7 @@ The only predefined controller I have is *Ion Audio Drum Rocker for Playstation(
 | <span style="color:blue">ride</span>        | 1,12, down |
 | <span style="color:green">tom-tom 3</span>  | 2,11       |
 | <span style="color:green">crash</span>      | 2,12       |
+| <span style="color:orange">kick</span>      | 5          |
 
 I don't know why sometimes the controller window shows only the first number of a combo instead of all.
 

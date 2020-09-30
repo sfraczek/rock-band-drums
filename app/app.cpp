@@ -236,6 +236,10 @@ int main()
                 app.JoystickDisconnectedCallback(event.joystickConnect.joystickId);
                 break;
 
+            case sf::Event::JoystickMoved:
+                app.JoystickMovedCallback(event.joystickMove.axis, event.joystickMove.position);
+                break;
+
             case sf::Event::MouseButtonPressed:
             {
                 size_t index = buttons_manager.GetButtonIndexAt(event.mouseButton.x, event.mouseButton.y);

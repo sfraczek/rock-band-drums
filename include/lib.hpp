@@ -20,8 +20,9 @@ struct App
   void JoystickButtonReleasedCallback(uint32_t joystick_id, uint32_t joystick_button);
   void JoystickConnectedCallback(uint32_t joystick_id);
   void JoystickDisconnectedCallback(uint32_t joystick_id);
+  void JoystickMovedCallback(int axis, float joustick_position);
 
-  const Dimensions window_size{800, 600};
+  const Dimensions window_size{1024, 768};
   const std::string window_title{"Ion Drum Pad"};
   const std::string config_path{"config.json"};
 #ifdef _WIN32
