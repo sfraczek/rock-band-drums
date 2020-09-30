@@ -13,7 +13,7 @@
 
 struct DrumButtonsManager
 {
-    explicit DrumButtonsManager(const std::vector<Ion_DrumPad::Drum>& drums)
+    explicit DrumButtonsManager(const std::vector<Ion_DrumPad::Drum> &drums)
     {
         auto size = drums.size();
         names.resize(size);
@@ -63,9 +63,9 @@ struct DrumButtonsManager
             }
             samples[i].setBuffer(sound_buffers[i]);
         }
-        auto sort_by_combo_length_descending = [](auto p1, auto p2) {return p1.first.size() > p2.first.size();};
-        std::sort(keyboard_buttons_combination_and_id.begin(),keyboard_buttons_combination_and_id.end(), sort_by_combo_length_descending);
-        std::sort(joystick_buttons_combination_and_id.begin(),joystick_buttons_combination_and_id.end(), sort_by_combo_length_descending);
+        auto sort_by_combo_length_descending = [](auto p1, auto p2) { return p1.first.size() > p2.first.size(); };
+        std::sort(keyboard_buttons_combination_and_id.begin(), keyboard_buttons_combination_and_id.end(), sort_by_combo_length_descending);
+        std::sort(joystick_buttons_combination_and_id.begin(), joystick_buttons_combination_and_id.end(), sort_by_combo_length_descending);
     }
 
     size_t GetButtonIndexAt(int32_t x, int32_t y)
@@ -102,7 +102,7 @@ struct DrumButtonsManager
 #endif
         for (int i = 0; i < keyboard_buttons_combination_and_id.size(); ++i)
         {
-            if(auto new_combo = Ion_DrumPad::RemoveSubset(keyboard_buttons_combination_and_id[i].first, combo))
+            if (auto new_combo = Ion_DrumPad::RemoveSubset(keyboard_buttons_combination_and_id[i].first, combo))
             {
 #ifdef DEBUG
                 std::cout << "Keyboard combo found: " << keyboard_buttons_combination_and_id[i].first << ". New combo: " << new_combo.value() << std::endl;
@@ -122,7 +122,7 @@ struct DrumButtonsManager
 #endif
         for (int i = 0; i < joystick_buttons_combination_and_id.size(); ++i)
         {
-            if(auto new_combo = Ion_DrumPad::RemoveSubset(joystick_buttons_combination_and_id[i].first, combo))
+            if (auto new_combo = Ion_DrumPad::RemoveSubset(joystick_buttons_combination_and_id[i].first, combo))
             {
 #ifdef DEBUG
                 std::cout << "Joystick combo found: " << joystick_buttons_combination_and_id[i].first << " in " << new_combo.value() << std::endl;
@@ -161,8 +161,8 @@ public:
     std::vector<sf::Sound> samples;
     std::vector<sf::SoundBuffer> sound_buffers;
     std::vector<Ion_DrumPad::Position> positions;
-    std::vector<std::pair<std::vector<uint32_t>,uint32_t>> keyboard_buttons_combination_and_id;
-    std::vector<std::pair<std::vector<uint32_t>,uint32_t>> joystick_buttons_combination_and_id;
+    std::vector<std::pair<std::vector<uint32_t>, uint32_t>> keyboard_buttons_combination_and_id;
+    std::vector<std::pair<std::vector<uint32_t>, uint32_t>> joystick_buttons_combination_and_id;
 #ifdef DEBUG
     std::vector<float> last_distances;
     std::vector<uint32_t> count(size, 0);
