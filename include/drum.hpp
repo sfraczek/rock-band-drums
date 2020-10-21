@@ -21,5 +21,7 @@ struct Drum
     Position position_on_screen;
     // radius of drawn button
     float radius;
+    // RGB(A-optional) color components
+    std::vector<uint8_t> rgb;
 };
 } // namespace Ion_DrumPad

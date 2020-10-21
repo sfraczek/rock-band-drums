@@ -40,7 +40,7 @@ struct DrumButtonsManager
             // Create button shape
             shapes[i].setPosition(drums[i].position_on_screen.x, drums[i].position_on_screen.y);
             shapes[i].setRadius(drums[i].radius);
-            shapes[i].setFillColor(sf::Color::Green);
+            shapes[i].setFillColor(sf::Color(drums[i].rgb[0], drums[i].rgb[1], drums[i].rgb[2]));
             // and texture
             if (!drums[i].image_file.empty())
             {
@@ -249,15 +249,15 @@ int main()
                     {
                         buttons_manager.Press(index);
                     }
-                    else if (event.mouseButton.button == sf::Mouse::Right)
-                    {
-                        // Toggle colors except for black (0,0,255 -> 0,255,0 -> 0,255,255 -> ... -> 255,255,255 -> 0,0,255)
-                        auto color = buttons_manager.shapes[index].getFillColor();
-                        int number = ((color.r & 1) << 2) + ((color.g & 1) << 1) + (color.b & 1);
-                        int new_number = std::max((number + 1) % 0b1000, 0b001);
-                        sf::Color new_color(255 * ((new_number & 0b100) >> 2), 255 * ((new_number & 0b010) >> 1), 255 * (new_number & 0b001));
-                        buttons_manager.shapes[index].setFillColor(new_color);
-                    }
+                    // else if (event.mouseButton.button == sf::Mouse::Right)
+                    // {
+                    //     // Toggle colors except for black (0,0,255 -> 0,255,0 -> 0,255,255 -> ... -> 255,255,255 -> 0,0,255)
+                    //     auto color = buttons_manager.shapes[index].getFillColor();
+                    //     int number = ((color.r & 1) << 2) + ((color.g & 1) << 1) + (color.b & 1);
+                    //     int new_number = std::max((number + 1) % 0b1000, 0b001);
+                    //     sf::Color new_color(255 * ((new_number & 0b100) >> 2), 255 * ((new_number & 0b010) >> 1), 255 * (new_number & 0b001));
+                    //     buttons_manager.shapes[index].setFillColor(new_color);
+                    // }
                 }
             }
             break;
