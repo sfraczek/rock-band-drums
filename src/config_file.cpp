@@ -137,7 +137,7 @@ namespace Ion_DrumPad
             "sound_file": "sounds/General Crash.ogg",
             "image_file": "images/cymbal/320px-Bellotti_Cymbal.jfif",
             "keyboard_buttons_combination": [999],
-            "joystick_buttons_combination": [2,12],
+            "joystick_buttons_combination": [1,11,107],
             "position_on_screen": {"x": 300,"y": 300},
             "radius": 80
         },
@@ -146,7 +146,7 @@ namespace Ion_DrumPad
             "sound_file": "sounds/General Ride.ogg",
             "image_file": "images/cymbal/320px-Bellotti_Cymbal.jfif",
             "keyboard_buttons_combination": [999],
-            "joystick_buttons_combination": [1,12,107],
+            "joystick_buttons_combination": [0,11,107],
             "position_on_screen": {"x": 500,"y": 300},
             "radius": 60
         },

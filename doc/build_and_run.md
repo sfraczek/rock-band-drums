@@ -26,7 +26,7 @@ cmake .. -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Debug
 ```bash
 # This doesn't work
 # cmake --build . --config Debug --target all -j 4
-"C:\Program Files\CMake\bin\cmake.EXE" --build c:/Users/sfraczek/Documents/C++/ion-drumpad/build --config Debug --target ALL_BUILD -- /maxcpucount:10
+"C:\Program Files\CMake\bin\cmake.EXE" --build . --config Debug --target ALL_BUILD -- /maxcpucount:10
 
 cp _deps/sfml-build/lib/Debug/*.dll app/Debug/
 cp _deps/sfml-src/extlibs/bin/x64/*.dll app/Debug/
