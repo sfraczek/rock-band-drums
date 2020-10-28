@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "title.hpp"
 #include "drum.hpp"
 
 namespace Ion_DrumPad
@@ -17,6 +18,7 @@ namespace Ion_DrumPad
             Config(const std::string &file);
             // Checks if data is correct
             void Validate();
+            Title title;
             std::vector<Drum> drums;
         };
 

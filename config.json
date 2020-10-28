@@ -1,4 +1,9 @@
 {
+    "title":
+    {
+        "text": "Ion Audio IED08 Drum Rocker (R) for PlayStation (R) binding",
+        "rgb": [0, 111, 205]
+    },
     "drums": [
         {
             "name": "HiHat",

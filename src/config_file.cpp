@@ -37,10 +37,18 @@ namespace Ion_DrumPad
         j.at("rgb").get_to(d.rgb);
     }
 
+    void from_json(const json &j, Title &t)
+    {
+        j.at("text").get_to(t.text);
+        j.at("rgb").get_to(t.rgb);
+    }
+
+
     namespace ConfigFile
     {
         void from_json(const json &j, ConfigFile::Config &c)
         {
+            c.title = j["title"];
             for (auto &js_drum : j["drums"])
             {
                 std::cout << js_drum << "\n";
@@ -87,6 +95,11 @@ namespace Ion_DrumPad
 
         const char *default_config = R"(
 {
+    "title":
+    {
+        "text": "Ion Audio IED08 Drum Rocker (R) for PlayStation (R) binding",
+        "rgb": [0, 111, 205]
+    },
     "drums": [
         {
             "name": "HiHat",

@@ -171,18 +171,18 @@ public:
 
 struct MainText : public sf::Text
 {
-    explicit MainText(std::string fname)
+    explicit MainText(std::string text, std::vector<uint8_t> rgb, std::string font_name)
     {
-        if (!font.loadFromFile(fname))
+        if (!font.loadFromFile(font_name))
         {
-            throw std::runtime_error("Could not load font '" + fname + "' from file.");
+            throw std::runtime_error("Could not load font '" + font_name + "' from file.");
         }
 
-        setString("Click buttons, press keys or joystick buttons");
+        setString(text);
         setFont(font);
         setCharacterSize(30);
-        setFillColor(sf::Color::Red);
-        setOrigin((-800 + getGlobalBounds().width) / 2, -10);
+        setFillColor(sf::Color(rgb[0], rgb[1], rgb[2]));
+        setOrigin(-10, -10);
     }
 
 private:
@@ -195,7 +195,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(app.window_size.width, app.window_size.height), app.window_title);
 
-    MainText text(app.default_font);
+    MainText text(app.config.title.text, app.config.title.rgb, app.default_font);
 
     DrumButtonsManager buttons_manager(app.config.drums);
 
