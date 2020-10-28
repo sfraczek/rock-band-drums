@@ -34,6 +34,8 @@ struct App
   const ConfigFile::Config config{config_path};
   std::vector<uint32_t> keybord_buttons_pressed;
   std::vector<uint32_t> joystick_buttons_pressed;
+  // add axis movement to joystick buttons vector with offset
+  uint32_t button_axis_offset = 100;
 };
 
 } // namespace Ion_DrumPad
