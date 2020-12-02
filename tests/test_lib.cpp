@@ -1,28 +1,31 @@
 #define CATCH_CONFIG_MAIN
 #include "lib.hpp"
+#include "config_file.hpp"
+#include "temporary_file.hpp"
 #include <catch2/catch.hpp>
-
-using Ion_DrumPad::App;
 
 TEST_CASE("Public variables", "lib")
 {
-    App app;
+    TemporaryFile tmp_config_file;
+    tmp_config_file.Write(Ion_DrumPad::ConfigFile::default_config);
+    Ion_DrumPad::App app(tmp_config_file.Name());
 
-    REQUIRE(app.window_size.width == 1024);
-    REQUIRE(app.window_size.height == 768);
     REQUIRE(app.window_title == "Ion Drum Pad");
-    REQUIRE(app.config_path == "config.json");
+    REQUIRE(app.config_path == tmp_config_file.Name());
 #ifdef _WIN32
     REQUIRE(app.default_font == "C:\\Windows\\Fonts\\arial.ttf");
 #elif __linux__
     REQUIRE(app.default_font == "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf");
 #endif
     REQUIRE(app.ms_delay.count() == 16);
+    REQUIRE(app.button_axis_offset == 100);
 }
 
 TEST_CASE("Callbacks don't throw", "lib")
 {
-    App app;
+    TemporaryFile tmp_config_file;
+    tmp_config_file.Write(Ion_DrumPad::ConfigFile::default_config);
+    Ion_DrumPad::App app(tmp_config_file.Name());
 
     auto key_code = 12u;
     auto joystick_id = 1u;

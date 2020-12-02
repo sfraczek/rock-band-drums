@@ -193,7 +193,7 @@ int main()
 {
     Ion_DrumPad::App app;
 
-    sf::RenderWindow window(sf::VideoMode(app.window_size.width, app.window_size.height), app.window_title);
+    sf::RenderWindow window(sf::VideoMode(app.config.window_size.width, app.config.window_size.height), app.window_title);
 
     MainText text(app.config.title.text, app.config.title.rgb, app.default_font);
 

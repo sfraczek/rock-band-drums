@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "algebra.hpp"
 #include "title.hpp"
 #include "drum.hpp"
 
@@ -18,6 +19,7 @@ namespace Ion_DrumPad
             Config(const std::string &file);
             // Checks if data is correct
             void Validate();
+            Dimensions window_size;
             Title title;
             std::vector<Drum> drums;
         };

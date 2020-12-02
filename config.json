@@ -1,4 +1,9 @@
 {
+    "window_size":
+    {
+        "width": 1024,
+        "height": 768
+    },
     "title":
     {
         "text": "Ion Audio IED08 Drum Rocker for PlayStation binding",

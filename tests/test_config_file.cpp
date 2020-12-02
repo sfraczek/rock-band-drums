@@ -1,52 +1,15 @@
 #include "config_file.hpp"
+#include "temporary_file.hpp"
 #include <catch2/catch.hpp>
-#include <fstream>
-#include <filesystem>
-
-using namespace Ion_DrumPad::ConfigFile;
-using Ion_DrumPad::Drum;
-
-struct TemporaryFile
-{
-    TemporaryFile()
-    {
-        auto directory = std::filesystem::temp_directory_path();
-        std::filesystem::path filename = std::tmpnam(nullptr);
-        auto file_path = directory / filename;
-        fname = file_path.string();
-    }
-
-    ~TemporaryFile()
-    {
-        if (fs.is_open())
-            fs.close();
-        if (!fname.empty())
-            std::filesystem::remove(fname);
-    }
-
-    void Write(const char *data)
-    {
-        fs.open(fname);
-        fs << data;
-        fs.close();
-    }
-
-    std::string Name()
-    {
-        return fname;
-    }
-
-private:
-    std::string fname;
-    std::ofstream fs;
-};
 
 TEST_CASE("Read Config from file", "config_file")
 {
     TemporaryFile tmp_config_file;
-    tmp_config_file.Write(default_config);
-    Config config(tmp_config_file.Name());
+    tmp_config_file.Write(Ion_DrumPad::ConfigFile::default_config);
+    Ion_DrumPad::ConfigFile::Config config(tmp_config_file.Name());
 
+    REQUIRE(config.window_size.width == 1024);
+    REQUIRE(config.window_size.height == 768);
     REQUIRE(config.title.text == "Ion Audio IED08 Drum Rocker for PlayStation binding");
     REQUIRE(config.title.rgb == std::vector<uint8_t>{0, 111, 205});
 

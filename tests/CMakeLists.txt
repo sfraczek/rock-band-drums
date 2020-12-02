@@ -13,6 +13,7 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 include(Catch)
 
 set(TEST_SOURCE_FILES
+    temporary_file.cpp
     test_config_file.cpp
     test_lib.cpp
     test_util.cpp)

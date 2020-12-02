@@ -9,8 +9,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include "algebra.hpp"
-#include "drum.hpp"
 #include "util.hpp"
 
 using json = nlohmann::json;
@@ -43,11 +41,17 @@ namespace Ion_DrumPad
         j.at("rgb").get_to(t.rgb);
     }
 
+    void from_json(const json &j, Dimensions &d)
+    {
+        j.at("width").get_to(d.width);
+        j.at("height").get_to(d.height);
+    }
 
     namespace ConfigFile
     {
         void from_json(const json &j, ConfigFile::Config &c)
         {
+            c.window_size = j["window_size"];
             c.title = j["title"];
             for (auto &js_drum : j["drums"])
             {
@@ -95,6 +99,11 @@ namespace Ion_DrumPad
 
         const char *default_config = R"(
 {
+    "window_size":
+    {
+        "width": 1024,
+        "height": 768
+    },
     "title":
     {
         "text": "Ion Audio IED08 Drum Rocker for PlayStation binding",
