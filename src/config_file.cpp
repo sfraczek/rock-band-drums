@@ -97,7 +97,7 @@ namespace Ion_DrumPad
 {
     "title":
     {
-        "text": "Ion Audio IED08 Drum Rocker (R) for PlayStation (R) binding",
+        "text": "Ion Audio IED08 Drum Rocker for PlayStation binding",
         "rgb": [0, 111, 205]
     },
     "drums": [

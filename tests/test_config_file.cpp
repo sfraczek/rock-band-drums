@@ -47,7 +47,7 @@ TEST_CASE("Read Config from file", "config_file")
     tmp_config_file.Write(default_config);
     Config config(tmp_config_file.Name());
 
-    REQUIRE(config.title.text == "Ion Audio IED08 Drum Rocker (R) for PlayStation (R) binding");
+    REQUIRE(config.title.text == "Ion Audio IED08 Drum Rocker for PlayStation binding");
     REQUIRE(config.title.rgb == std::vector<uint8_t>{0, 111, 205});
 
     auto &drums = config.drums;

@@ -1,7 +1,7 @@
 # Game Controllers
-The only predefined controller I have is *Ion Audio IED08 Drum Rocker (R) for Playstation*.
+The only predefined controller I have is *Ion Audio IED08 Drum Rocker for Playstation*.
 
-## Ion Audio Drum Rocker for Playstation(R)3
+## Ion Audio Drum Rocker for Playstation
 
 | drum or cymbal | 1-indexed combo* |
 | -------------- | ----- |
