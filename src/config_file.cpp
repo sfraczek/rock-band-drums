@@ -55,7 +55,9 @@ namespace Ion_DrumPad
             c.title = j["title"];
             for (auto &js_drum : j["drums"])
             {
+#ifdef DEBUG
                 std::cout << js_drum << "\n";
+#endif
                 c.drums.emplace_back(js_drum.get<Drum>());
             }
         }
@@ -63,17 +65,19 @@ namespace Ion_DrumPad
         Config::Config(const std::string &file)
         {
             std::ifstream ifs(file);
+            auto fpath = std::filesystem::absolute(file);
+            std::cout << "Loading config file: " << fpath.string() << std::endl;
             if (!ifs.is_open())
             {
-                std::filesystem::path fpath(file);
-                std::string to_append = fpath.string() + " in path: " + std::filesystem::current_path().string();
                 if (std::filesystem::exists(file))
                 {
-                    throw std::runtime_error("File does not exist: " + to_append);
+                    std::cout << "Failed to load config file." << std::endl;
+                    throw std::runtime_error("File does not exist: " + fpath.string());
                 }
                 else
                 {
-                    throw std::runtime_error("Could not open file: " + to_append);
+                    std::cout << "Failed to load config file." << std::endl;
+                    throw std::runtime_error("Could not open file: " + fpath.string());
                 }
             }
 
